@@ -1,0 +1,7 @@
+schema: http://your-graphql-endpoint
+documents: src/**/*.graphql
+generates:
+  src/generated/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
