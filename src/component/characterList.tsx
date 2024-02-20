@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_CHARACTERS } from '../queries/queries';
+import { GET_CHARACTERS } from '../queries/graphql';
 
 interface Character {
   id: number;
