@@ -1,46 +1,43 @@
-// import { useState } from 'react'
-import './App.css'
-import CharacterDetails from "./component/characterDetails.tsx";
-
-
+import { useEffect, useState } from 'react';
+import { ApolloClient, InMemoryCache} from '@apollo/client';
+import CharacterCard, { Cast } from "./component/characterCard.tsx";
+import {TEST_QERRY} from "./queries/graphql.ts";
 
 function App() {
-  // const [count, setCount] = useState(0)
-    const casts = [
-        {
-            id: 1,
-            name: "Amish Cyborg",
-            image: "https://rickandmortyapi.com/api/character/avatar/16.jpeg"
-        },
-        {
-            id: 17,
-            name: "Annie",
-            image: "https://rickandmortyapi.com/api/character/avatar/17.jpeg"
-        },
-        {
-            id: 18,
-            name: "Antenna Morty",
-            image: "https://rickandmortyapi.com/api/character/avatar/18.jpeg"
-        },
-        {
-            id: 19,
-            name: "Antenna Rick",
-            image: "https://rickandmortyapi.com/api/character/avatar/19.jpeg"
-        },
+    const [casts, setCasts] = useState<Cast[]>([]);
 
-    ];
+    useEffect(() => {
+        const client = new ApolloClient({
+            uri: 'https://rickandmortyapi.com/graphql',
+            cache: new InMemoryCache(),
+        });
 
-  return (
-      <div className="container">
-          <div className="row">
-              {casts.map((cast, index) => (
-                  <div className="col-md-3" key={index}>
-                      <CharacterDetails character={cast}/>
-                  </div>
-              ))}
-          </div>
-      </div>
-  )
+        client
+            .query({
+                query: TEST_QERRY,
+            })
+            .then((result) => {
+                const gcast = result.data.characters.results;
+                const castList: Cast[] = gcast.map((item: any) => ({
+                    id: item.id,
+                    name: item.name,
+                    image: item.image,
+                }));
+                setCasts(castList);
+            });
+    }, []); // Empty dependency array ensures this effect runs only once
+
+    return (
+        <div className="container">
+            <div className="row">
+                {casts.map((cast, index) => (
+                    <div className="col-md-3" key={index}>
+                        <CharacterCard character={cast} />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
-export default App
+export default App;

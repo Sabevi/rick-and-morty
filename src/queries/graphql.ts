@@ -1,5 +1,16 @@
 import { gql } from '@apollo/client';
 
+export const TEST_QERRY = gql`
+          query GetCharacters {
+            characters {
+              results {
+                id
+                name
+                image
+              }
+            }
+          }
+        `;
 export const GET_CHARACTERS = gql`
   query GetCharacters($page: Int!) {
       characters {
