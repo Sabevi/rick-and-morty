@@ -1,13 +1,10 @@
 import React from 'react';
+import {CharacterModel} from "../model/CharacterModel.ts";
 
-export interface Cast {
-    id: number;
-    name: string;
-    image: string;
-}
+
 
 interface CharacterDetailsProps {
-    character: Cast;
+    character: CharacterModel;
 }
 
 const CharacterCard: React.FC<CharacterDetailsProps> = ({ character }) => {
@@ -21,13 +18,10 @@ const CharacterCard: React.FC<CharacterDetailsProps> = ({ character }) => {
                     <div className="card-body d-flex align-items-stretch" style={{minHeight: '100%'}}>
                         <div className="row">
                             <h5 className="card-title">{character.name}</h5>
-                            <div className="card-text">
-                                <p>Location: Earth Dimension C-137</p>
-                                <p>Status: Alive</p>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button>
             </div>
         </div>
     );
